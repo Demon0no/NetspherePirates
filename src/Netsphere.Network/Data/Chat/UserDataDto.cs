@@ -1,6 +1,5 @@
 ﻿using BlubLib.Serialization;
 using BlubLib.Serialization.Serializers;
-using Netsphere.Network.Serializers;
 using ProudNet.Serializers;
 
 namespace Netsphere.Network.Data.Chat

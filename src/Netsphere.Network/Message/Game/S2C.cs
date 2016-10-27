@@ -84,6 +84,15 @@ namespace Netsphere.Network.Message.Game
         [BlubMember(14)]
         public CPTStatsDto CPTStats { get; set; }
 
+        [BlubMember(15)]
+        public uint Unk5 { get; set; }
+
+        [BlubMember(16)]
+        public uint Unk6 { get; set; }
+
+        [BlubMember(17)]
+        public uint Unk7 { get; set; }
+
         public SBeginAccountInfoAckMessage()
         {
             DMStats = new DMStatsDto();
@@ -717,10 +726,10 @@ namespace Netsphere.Network.Message.Game
     public class SRefundItemAckMessage : GameMessage
     {
         [BlubMember(0)]
-        public ItemRefundResult Result { get; set; }
+        public ulong ItemId { get; set; }
 
         [BlubMember(1)]
-        public ulong ItemId { get; set; }
+        public ItemRefundResult Result { get; set; }
     }
 
     [BlubContract]
