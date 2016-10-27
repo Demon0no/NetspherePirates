@@ -7,7 +7,7 @@ namespace ProudNet
     [BlubContract]
     public class ProudConfig
     {
-        internal const uint InternalNetVersion = 196713;
+        internal const uint InternalNetVersion = 196977;
 
         public Guid Version { get; }
         public IPEndPoint UdpListener { get; set; }
@@ -37,29 +37,31 @@ namespace ProudNet
         [BlubMember(7)]
         public int EncryptedMessageKeyLength { get; set; }
 
-        [BlubMember(8)]
+        [BlubMember(9)]
         public bool AllowServerAsP2PGroupMember { get; set; }
 
-        [BlubMember(9)]
+        [BlubMember(10)]
         public bool EnableP2PEncryptedMessaging { get; set; }
 
-        [BlubMember(10)]
+        [BlubMember(11)]
         public bool UpnpDetectNatDevice { get; set; }
 
-        [BlubMember(11)]
-        public bool UpnpTcpAddrPortMapping { get; set; }
-
         [BlubMember(12)]
-        public bool EnablePingTest { get; set; }
+        public bool UpnpTcpAddrPortMapping { get; set; }
 
         [BlubMember(13)]
         public uint EmergencyLogLineCount { get; set; }
+
+        [BlubMember(14)]
+        public bool Unk1 { get; set; }
+
+        [BlubMember(15)]
+        public bool Unk2 { get; set; }
 
         public ProudConfig()
         {
             Version = Guid.Empty;
 
-            EnableServerLog = false;
             FallbackMethod = FallbackMethod.None;
             MessageMaxLength = 65000;
             TimeoutTimeMs = 900;
@@ -67,12 +69,8 @@ namespace ProudNet
             OverSendSuspectingThresholdInBytes = 15360;
             EnableNagleAlgorithm = true;
             EncryptedMessageKeyLength = 128;
-            AllowServerAsP2PGroupMember = false;
-            EnableP2PEncryptedMessaging = false;
             UpnpDetectNatDevice = true;
             UpnpTcpAddrPortMapping = true;
-            EnablePingTest = false;
-            EmergencyLogLineCount = 0;
         }
 
         public ProudConfig(Guid version)

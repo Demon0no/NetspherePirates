@@ -7,13 +7,11 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
-using BlubLib.IO;
 using BlubLib.Network;
 using BlubLib.Network.Pipes;
 using BlubLib.Network.Transport.Sockets;
 using BlubLib.Serialization;
 using NLog;
-using NLog.Fluent;
 using ProudNet.Data;
 using ProudNet.Message;
 using ProudNet.Message.Core;
@@ -103,27 +101,25 @@ namespace ProudNet.Services
         [MessageHandler(typeof(NotifyCSEncryptedSessionKeyMessage))]
         public void NotifyCSEncryptedSessionKeyMessage(IService service, ProudSession session, NotifyCSEncryptedSessionKeyMessage message)
         {
-            using (var rsa = new RSACryptoServiceProvider(1024))
+            byte[] key;
+            try
             {
-                rsa.ImportCspBlob(message.Key);
-                session.EncryptContext = new EncryptContext(128 /*_filter.Config.EncryptedMessageKeyLength*/);
-
-                byte[] blob;
-                using (var w = new BinaryWriter(new PooledMemoryStream(service.ArrayPool)))
-                {
-                    w.Write((byte)1);
-                    w.Write((byte)2);
-                    w.Write((byte)0);
-                    w.Write((byte)0);
-                    w.Write(26625);
-                    w.Write(41984);
-
-                    var encrypted = rsa.Encrypt(session.EncryptContext.RC4.Key, false);
-                    w.Write(encrypted.Reverse());
-                    blob = w.ToArray();
-                }
-                session.Send(new NotifyCSSessionKeySuccessMessage(blob));
+                key = _filter.RSA.Decrypt(message.Key, true);
             }
+            catch (CryptographicException)
+            {
+                session.Dispose();
+                return;
+            }
+
+            if (key.Length * 8 != _filter.Config.EncryptedMessageKeyLength)
+            {
+                session.Dispose();
+                return;
+            }
+
+            session.EncryptContext = new EncryptContext(key);
+            session.Send(new NotifyCSSessionKeySuccessMessage());
         }
 
         [MessageHandler(typeof(NotifyServerConnectionRequestDataMessage))]

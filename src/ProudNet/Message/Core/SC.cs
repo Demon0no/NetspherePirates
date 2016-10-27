@@ -26,16 +26,19 @@ namespace ProudNet.Message.Core
     internal class EncryptedReliableMessage : CoreMessage
     {
         [BlubMember(0)]
-        public byte Unk { get; set; }
+        public EncryptMode EncryptMode { get; set; }
 
         [BlubMember(1, typeof(ArrayWithScalarSerializer))]
         public byte[] Data { get; set; }
 
         public EncryptedReliableMessage()
-        { }
+        {
+            EncryptMode = EncryptMode.Secure;
+        }
 
         public EncryptedReliableMessage(byte[] data)
         {
+            EncryptMode = EncryptMode.Secure;
             Data = data;
         }
     }

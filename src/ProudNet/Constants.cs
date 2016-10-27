@@ -105,6 +105,11 @@
         S2C_CreateUdpSocketAck = 64519,
     }
 
+    public enum EncryptMode : byte
+    {
+        Secure = 1
+    }
+
     public enum FallbackMethod : byte
     {
         None = 0,

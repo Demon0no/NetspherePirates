@@ -58,7 +58,7 @@ namespace ProudNet
                 session.P2PGroup = this;
 
                 if (encrypted)
-                    session.Send(new P2PGroup_MemberJoinMessage(HostId, hostId, 0, encryptContext.RC4.Key, directP2P));
+                    session.Send(new P2PGroup_MemberJoinMessage(HostId, hostId, 0, encryptContext.AES.Key, directP2P));
                 else
                     session.Send(new P2PGroup_MemberJoin_UnencryptedMessage(HostId, hostId, 0, directP2P));
             }
@@ -74,8 +74,8 @@ namespace ProudNet
                 member.ConnectionStates[remotePeer.HostId] = stateB;
                 if (encrypted)
                 {
-                    memberSession?.Send(new P2PGroup_MemberJoinMessage(HostId, hostId, stateB.EventId, encryptContext.RC4.Key, directP2P));
-                    session?.Send(new P2PGroup_MemberJoinMessage(HostId, member.HostId, stateA.EventId, member.EncryptContext.RC4.Key, directP2P));
+                    memberSession?.Send(new P2PGroup_MemberJoinMessage(HostId, hostId, stateB.EventId, encryptContext.AES.Key, directP2P));
+                    session?.Send(new P2PGroup_MemberJoinMessage(HostId, member.HostId, stateA.EventId, member.EncryptContext.AES.Key, directP2P));
                 }
                 else
                 {

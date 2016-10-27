@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using BlubLib.IO;
@@ -29,7 +30,8 @@ namespace ProudNet
         // ToDo refactor hostId creation
         private readonly HashSet<uint> _hostIds = new HashSet<uint>();
         private readonly AsyncLock _sync = new AsyncLock();
-        
+
+        internal RSACryptoServiceProvider RSA { get; private set; }
         internal UdpServerSocket UdpSocket { get; private set; }
 
         public ServerP2PGroupManager P2PGroupManager { get; }
@@ -51,7 +53,7 @@ namespace ProudNet
 
             Logger.Debug($"New incoming client on {remoteEndPoint}");
 
-            await e.Session.SendAsync(new NotifyServerConnectionHintMessage(Config))
+            await e.Session.SendAsync(new NotifyServerConnectionHintMessage(Config, RSA.ExportParameters(false)))
                 .ConfigureAwait(false);
 
             using (var cts = new CancellationTokenSource(s_timeout))
@@ -122,6 +124,7 @@ namespace ProudNet
         {
             Logger.Debug("Initializing...");
 
+            RSA = new RSACryptoServiceProvider(1024);
             if (Config.UdpListener != null)
             {
                 Logger.Debug($"Creating udp socket on {Config.UdpListener}");
@@ -144,6 +147,11 @@ namespace ProudNet
                 UdpSocket = null;
             }
 
+            if (RSA != null)
+            {
+                RSA.Dispose();
+                RSA = null;
+            }
             base.OnClose();
         }
 
