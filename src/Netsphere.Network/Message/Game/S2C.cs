@@ -848,14 +848,6 @@ namespace Netsphere.Network.Message.Game
     }
 
     [BlubContract]
-    [Obsolete("This handler is empty inside the client")]
-    public class SEnableAccountStatusAckMessage : GameMessage
-    {
-        [BlubMember(0)]
-        public uint Unk { get; set; }
-    }
-
-    [BlubContract]
     public class SActiveEquipPresetAckMessage : GameMessage
     {
         [BlubMember(0)]

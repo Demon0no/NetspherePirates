@@ -62,7 +62,6 @@ namespace Netsphere.Network.Message.Game
             Create<SRefreshInvalidEquipItemAckMessage>(GameOpCode.SRefreshInvalidEquipItemAck);
             Create<SClearInvalidateItemAckMessage>(GameOpCode.SClearInvalidateItemAck);
             Create<SRefreshItemTimeInfoAckMessage>(GameOpCode.SRefreshItemTimeInfoAck);
-            Create<SEnableAccountStatusAckMessage>(GameOpCode.SEnableAccountStatusAck);
             Create<SActiveEquipPresetAckMessage>(GameOpCode.SActiveEquipPresetAck);
             Create<SMyLicenseInfoAckMessage>(GameOpCode.SMyLicenseInfoAck);
             Create<SLicensedAckMessage>(GameOpCode.SLicensedAck);
@@ -144,7 +143,7 @@ namespace Netsphere.Network.Message.Game
             Create<CRandomShopItemGetReqMessage>(GameOpCode.CRandomShopItemGetReq);
             Create<CRandomShopItemSaleReqMessage>(GameOpCode.CRandomShopItemSaleReq);
             Create<CExerciseLicenceReqMessage>(GameOpCode.CExerciseLicenceReq);
-            Create<CUseCoinReqGSMessage>(GameOpCode.CUseCoinReqGS);
+            Create<CUseCoinReqGSMessage>(GameOpCode.CUseCoinReq);
             Create<CApplyEsperChipItemReqMessage>(GameOpCode.CApplyEsperChipItemReq);
             Create<CBadUserReqMessage>(GameOpCode.CBadUserReq);
             Create<CClubJoinReqMessage>(GameOpCode.CClubJoinReq);
